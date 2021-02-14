@@ -1,0 +1,19 @@
+{
+  "name": "crypto-finder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "devstart": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bottleneck": "^2.19.5",
+    "coingecko-api": "^1.0.10",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}
