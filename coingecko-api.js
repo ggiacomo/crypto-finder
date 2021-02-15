@@ -64,7 +64,7 @@ exports.coinsNotListedYetOn = async (exchange = "binance") => {
   const {
     data: { tickers },
   } = await CoinGeckoClient.exchanges.fetch(exchange);
-  const { data: allCoins } = await CoinGeckoClient.coins.list();
+  const { data: allCoins } = await CoinGeckoClient.coins.all();
   console.log("[coinsNotListedYetOn] ~ # coins", allCoins.length);
   const coins = allCoins.filter(
     ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
