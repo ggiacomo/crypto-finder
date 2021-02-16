@@ -71,14 +71,15 @@ exports.coinsNotListedYetOn = async (exchange = "binance") => {
   const { data: allCoins } = await CoinGeckoClient.coins.markets({
     vs_currency: "usd",
     order: "market_cap_desc",
-    price_change_percentage: "7d"
+    price_change_percentage: "7d",
+    per_page: '250'
   });
 
   console.log("[coinsNotListedYetOn] ~ # coins", allCoins.length);
   const coins = allCoins.filter(
     ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
-  );
-
+    );
+    
   return coins.reduce((acc, coin) => {
     const exists = tickers.find(
       (t) => t.coin_id === coin.id || t.target_coin_id === coin.id
