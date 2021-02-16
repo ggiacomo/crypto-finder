@@ -42,26 +42,26 @@ exports.coinsNotToAthYet = async () => {
     vs_currency: "usd",
   });
 
-  return coins.reduce((acc, coin) => {
-    const { symbol, name, ath_change_percentage, ath_date } = coin;
-    console.log(`[coinsNotToAthYet] checking ${name} (${symbol})`);
-    const eur_ath_date = new Date(ath_date);
+  return coins
+    .reduce((acc, coin) => {
+      const { symbol, name, ath_change_percentage, ath_date } = coin;
+      console.log(`[coinsNotToAthYet] checking ${name} (${symbol})`);
+      const eur_ath_date = new Date(ath_date);
 
-    const date_to_check = new Date();
-    date_to_check.setDate(date_to_check.getDate() - ath_days_diff);
+      const date_to_check = new Date();
+      date_to_check.setDate(date_to_check.getDate() - ath_days_diff);
 
-    if (
-      ath_change_percentage < 0 &&
-      eur_ath_date.getTime() < date_to_check.getTime()
-    ) {
-      return [...acc, coin];
-    }
-    return acc;
-  }, [])
-  .filter(
-    ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
-  );
-
+      if (
+        ath_change_percentage < 0 &&
+        eur_ath_date.getTime() < date_to_check.getTime()
+      ) {
+        return [...acc, coin];
+      }
+      return acc;
+    }, [])
+    .filter(
+      ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
+    );
 };
 
 exports.coinsNotListedYetOn = async (exchange = "binance") => {
@@ -72,14 +72,14 @@ exports.coinsNotListedYetOn = async (exchange = "binance") => {
     vs_currency: "usd",
     order: "market_cap_desc",
     price_change_percentage: "7d",
-    per_page: '250'
+    per_page: "250",
   });
 
   console.log("[coinsNotListedYetOn] ~ # coins", allCoins.length);
   const coins = allCoins.filter(
     ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
-    );
-    
+  );
+
   return coins.reduce((acc, coin) => {
     const exists = tickers.find(
       (t) => t.coin_id === coin.id || t.target_coin_id === coin.id
