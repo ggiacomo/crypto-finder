@@ -27,6 +27,7 @@ const toExclude = [
   "cusdc",
   "bsv",
   "ust",
+  "btmx",
 ];
 
 app.get('/', async (req, res) => {
