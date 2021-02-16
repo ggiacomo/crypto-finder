@@ -75,7 +75,6 @@ exports.coinsNotListedYetOn = async (exchange = "binance") => {
     per_page: "250",
   });
 
-  console.log("[coinsNotListedYetOn] ~ # coins", allCoins.length);
   const coins = allCoins.filter(
     ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
   );

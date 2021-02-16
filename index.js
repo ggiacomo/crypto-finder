@@ -23,11 +23,16 @@ const toExclude = [
   "cro",
   "cel",
   "bnb",
-  " busd",
+  "busd",
   "cusdc",
   "bsv",
   "ust",
-  "btmx",
+  "bat", // manually removed
+  "sc", // manually removed
+];
+
+const toExcludeBinance = [
+  "bat",
 ];
 
 app.get('/', async (req, res) => {
@@ -93,11 +98,12 @@ app.get("/ath-data", async (req, res) => {
 app.get("/unlisted-coins", async (req, res) => {
   let binanceCoins = await coinsNotListedYetOn("binance");
   binanceCoins = binanceCoins.map((c)=> Object.assign({}, c, {exchange: 'Binance'}))
+
   let coinbaseCoins = await coinsNotListedYetOn("gdax");
   coinbaseCoins = coinbaseCoins.map((c)=> Object.assign({}, c, {exchange: 'Coinbase'}))
-  const coins = [...new Set([...binanceCoins, ...coinbaseCoins])];
+  const coins = binanceCoins.concat(coinbaseCoins)
   const result = coins
-    .filter(onlyUnique)
+    // .filter(onlyUnique)
     // .filter(
     //   (c) =>
     //     c.market_data.market_cap_rank && c.market_data.market_cap_rank < 2000
