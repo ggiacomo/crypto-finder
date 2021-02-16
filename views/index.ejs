@@ -159,7 +159,7 @@ table.dataTable tbody tr td span.name {
                     <th>To ATH %</th>
                     <th>24h %</th>
                     <th>7d %</th>
-                    <th>Exchange</th>
+                    <th>Not listed in</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -225,7 +225,7 @@ jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
                 targets : 1 ,
                 data: "img",
                 render : function ( text, type, full) {
-                    return `<a target="_blank" href="https://coinmarketcap.com/currencies/'+full.id+'"/>${text} (${full.symbol.toUpperCase()})</a>`;
+                    return `<a target="_blank" href="https://coinmarketcap.com/currencies/${full.id}"/>${text} (${full.symbol.toUpperCase()})</a>`;
                 }
             },
             {
