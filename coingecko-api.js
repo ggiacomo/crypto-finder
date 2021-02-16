@@ -39,7 +39,7 @@ function delay(t, val) {
 exports.coinsNotToAthYet = async () => {
   const ath_days_diff = 365;
   const coins = await fetchAllData(CoinGeckoClient.coins.markets, {
-    vs_currency: "eur",
+    vs_currency: "usd",
   });
 
   return coins.reduce((acc, coin) => {
@@ -57,19 +57,29 @@ exports.coinsNotToAthYet = async () => {
       return [...acc, coin];
     }
     return acc;
-  }, []);
+  }, [])
+  .filter(
+    ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
+  );
+
 };
 
 exports.coinsNotListedYetOn = async (exchange = "binance") => {
   const {
     data: { tickers },
   } = await CoinGeckoClient.exchanges.fetch(exchange);
-  const { data: allCoins } = await CoinGeckoClient.coins.all();
+  const { data: allCoins } = await CoinGeckoClient.coins.markets({
+    vs_currency: "usd",
+    order: "market_cap_desc",
+    price_change_percentage: "7d",
+    per_page: '250'
+  });
+
   console.log("[coinsNotListedYetOn] ~ # coins", allCoins.length);
   const coins = allCoins.filter(
     ({ id }) => id && id.indexOf("x-long") < 0 && id.indexOf("x-short") < 0
-  );
-
+    );
+    
   return coins.reduce((acc, coin) => {
     const exists = tickers.find(
       (t) => t.coin_id === coin.id || t.target_coin_id === coin.id
